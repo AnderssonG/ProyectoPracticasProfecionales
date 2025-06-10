@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Planes de Trabajo</title>
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #f0f2f5, #c9d6ff);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f9fbfd;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 0.7rem;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .actions a,
+        .actions form {
+            display: inline-block;
+            margin: 0 0.3rem;
+        }
+
+        .btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .btn-ver {
+            background-color: #28a745;
+        }
+
+        .btn-editar {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .btn-eliminar {
+            background-color: #dc3545;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    <div class="container">
+        <h1>Listado de Planes de Trabajo</h1>
+
+
+        <div th:if="${planes != null and !planes.isEmpty()}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Docente</th>
+                        <th>Programa</th>
+                        <th>Semestre</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="p : ${planes}">
+                        <td th:text="${p.idPlantrabajo}"></td>
+                        <td th:text="${p.docente.nombres + ' ' + p.docente.apellidos}"></td>
+                        <td th:text="${p.docente.programa.nombre}"></td>
+                        <td th:text="${p.semestre.numeroSemestre}"></td>
+                        <td th:text="${#dates.format(p.semestre.fechaInicio, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#dates.format(p.semestre.fechaFin, 'dd/MM/yyyy')}"></td>
+                        <td class="actions">
+                            <a th:href="@{'/PlanTrabajoS/' + ${p.idPlantrabajo}}" class="btn btn-ver"><i
+                                    class="fas fa-eye"></i></a>
+
+                            <form th:action="@{'/eliminarP/' + ${p.idPlantrabajo}}" method="post"
+                                onsubmit="return confirm('¿Estás seguro de eliminar este plan?');">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <button type="submit" class="btn btn-eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${planes == null or planes.isEmpty()}" class="no-data">
+            <p>No hay planes de trabajo registrados.</p>
+        </div>
+    </div>
+</body>
+<script src="/js/nav.js"></script>
+
+</html>

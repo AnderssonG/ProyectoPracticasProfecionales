@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  
+  <title>Importar Archivo Excel</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org" />
+    
+  <link rel="stylesheet" href="/css/nav.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f8;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    p.instructions {
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      color: #555;
+      background: #e9f5ff;
+      border-left: 5px solid #3498db;
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input[type="file"] {
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar fragment -->
+  <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+  <div class="container">
+    <h2>Importar Actividades desde Excel</h2>
+
+    <p class="instructions">
+      Asegúrate de que el archivo Excel esté en el formato correcto. El archivo debe contener hojas con nombres como <strong>"Docencia", "Investigación", "Extensión", etc.</strong>, y tener encabezados válidos en la primera fila. Solo se aceptan archivos con extensión <code>.xls</code> o <code>.xlsx</code>.
+    </p>
+
+    <form th:action="@{/importar}" method="post" enctype="multipart/form-data">
+      <input type="file" name="archivoExcel" accept=".xls,.xlsx" required>
+      <button type="submit">Importar Archivo</button>
+    </form>
+  </div>
+
+</body>
+<script src="/js/nav.js"></script>
+</html>

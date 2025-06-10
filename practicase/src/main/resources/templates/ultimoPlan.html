@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Último Plan de Trabajo</title>
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #f0f2f5, #c9d6ff);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.2rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .info {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-left: 4px solid #007bff;
+            background-color: #f7f9fc;
+            border-radius: 8px;
+            margin: 0.4rem 0;
+        }
+
+        .info label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .info span {
+            color: #222;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f9fbfd;
+            margin-bottom: 1.5rem;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 0.6rem;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .info {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    <div class="container">
+
+        
+        <h1>Último Plan de Trabajo del Docente</h1>
+
+        <div th:if="${planTrabajo != null}">
+            <!-- Datos del Docente -->
+            <div class="section">
+                <h2>Datos del Docente</h2>
+                <div class="info"><label>Nombre:</label><span th:text="${planTrabajo.docente.nombres}"></span></div>
+                <div class="info"><label>Apellidos:</label><span th:text="${planTrabajo.docente.apellidos}"></span></div>
+                <div class="info"><label>Programa:</label><span th:text="${planTrabajo.docente.programa.nombre}"></span></div>
+                <div class="info"><label>Facultad:</label><span th:text="${planTrabajo.docente.programa.facultad.nombre}"></span></div>
+            </div>
+
+            <!-- Semestre -->
+            <div class="section">
+                <h2>Semestre</h2>
+                <div class="info"><label>Nombre:</label><span th:text="${planTrabajo.semestre.numeroSemestre}"></span></div>
+                <div class="info"><label>Inicio:</label><span th:text="${#dates.format(planTrabajo.semestre.fechaInicio, 'dd/MM/yyyy')}"></span></div>
+                <div class="info"><label>Fin:</label><span th:text="${#dates.format(planTrabajo.semestre.fechaFin, 'dd/MM/yyyy')}"></span></div>
+            </div>
+
+            <!-- Docencia -->
+            <div class="section">
+                <h2>Docencia</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asignatura</th>
+                            <th>Grupo</th>
+                            <th>Número de Estudiantes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="d : ${planTrabajo.docencias}">
+                            <td th:text="${d.asignatura}"></td>
+                            <td th:text="${d.grupo}"></td>
+                            <td th:text="${d.estudiantes}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Trabajo de Grado -->
+            <div class="section">
+                <h2>Asesorías y Trabajo de Grado</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Estudiante</th>
+                            <th>Horas semestrales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="a : ${planTrabajo.trabajosGrado}">
+                            <td th:text="${a.nombreProyecto}"></td>
+                            <td th:text="${a.nombreEstudiante}"></td>
+                            <td th:text="${a.semestral}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Investigación -->
+            <div class="section">
+                <h2>Investigación</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Rol o responsabilidad</th>
+                            <th>Total de horas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="i : ${planTrabajo.investigaciones}">
+                            <td th:text="${i.descripcion}"></td>
+                            <td th:text="${i.responsabilidad}"></td>
+                            <td th:text="${i.horasSemestre}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Extensión -->
+            <div class="section">
+                <h2>Extensión</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Proyecto</th>
+                            <th>Descripción</th>
+                            <th>Responsabilidad</th>
+                            <th>Total de horas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="e : ${planTrabajo.extensiones}">
+                            <td th:text="${e.actividad}"></td>
+                            <td th:text="${e.descripcion}"></td>
+                            <td th:text="${e.responsabilidad}"></td>
+                            <td th:text="${e.horasSemestre}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Administración Académica -->
+            <div class="section">
+                <h2>Administración Académica</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>URL entregable</th>
+                            <th>Horas totales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="a : ${planTrabajo.academicas}">
+                            <td th:text="${a.descripcion}"></td>
+                            <td th:text="${a.entregable}"></td>
+                            <td th:text="${a.horasSemestre}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Otras Actividades -->
+            <div class="section">
+                <h2>Otras Actividades</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Horas totales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="o : ${planTrabajo.otrasActividades}">
+                            <td th:text="${o.descripcion}"></td>
+                            <td th:text="${o.horasSemestre}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Observaciones -->
+            <div class="section">
+                <h2>Observaciones</h2>
+                <div class="info"><label>Texto:</label><span th:text="${planTrabajo.observaciones}">Sin observaciones</span></div>
+            </div>
+
+            <!-- Botones -->
+            <div class="btn-container">
+                <a th:href="@{'/planTrabajo/' + ${planTrabajo.idPlantrabajo}}" class="btn">Ver Detalles</a>
+                <a th:href="@{'/planTrabajo/editar/' + ${planTrabajo.idPlantrabajo}}" class="btn">Editar</a>
+                <a th:href="@{'/planTrabajo/exportar/' + ${planTrabajo.idPlantrabajo}}" class="btn">Exportar a PDF</a>
+            </div>
+        </div>
+
+        <div th:if="${planTrabajo == null}" class="no-data">
+            <p>No se encontró un plan de trabajo registrado.</p>
+        </div>
+    </div>
+</body>
+<script src="/js/nav.js"></script>
+</html>

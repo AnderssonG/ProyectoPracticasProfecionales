@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org" />
+    
+  <title>Página de Bienvenida</title>
+  <link rel="stylesheet" href="/css/nav.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px 40px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+    }
+
+    main {
+      padding: 40px;
+    }
+
+    section.info {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    section.info p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+    
+  
+    
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+  
+
+  
+  <main>
+    <h1>¡Bienvenido, [Nombre del Usuario]!</h1>
+    <section class="info">
+      <p>Has iniciado sesión correctamente en el sistema. Desde aquí podrás gestionar tu información, revisar tus actividades o navegar a los módulos correspondientes según tu rol.</p>
+
+      <p>Si tienes dudas, puedes consultar el menú o comunicarte con el administrador.</p>
+
+      <!-- Aquí puedes seguir agregando más secciones, botones, enlaces, etc. -->
+    </section>
+  </main>
+
+</body>
+<script src="/js/nav.js"></script>
+</html>

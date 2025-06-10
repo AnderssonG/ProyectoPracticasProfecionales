@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Registro de Usuario y Docente</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/registro.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <div class="login-container">
+        <form th:action="@{/regis}" th:object="${usuario}" method="post">
+            <div class="login-logo">
+                <img src="/LogoIUD.png" alt="IU Digital de Antioquia">
+                <h1>Sistema de Planes de Trabajo Docente</h1>
+            </div>
+            <fieldset id="">
+                <label for="nombres">Nombres:</label>
+                <input type="text" id="nombres" th:field="*{docente.nombres}" required placeholder="Nombres"/><br />
+
+                <label for="apellidos">Apellidos:</label>
+                <input type="text" id="apellidos" placeholder="Apellidos" th:field="*{docente.apellidos}"required /><br />
+
+                <label for="escalafon">Escalafón:</label>
+                <input type="text" id="escalafon" placeholder="Escalafon o tipo de contratacion" th:field="*{docente.escalafon}" required /><br />
+
+                <label for="programa">Programa:</label>
+                <select id="programa" th:field="*{docente.programa}" required>
+                    <option value=""  selected>Seleccione un programa</option>
+
+                    <option th:each="programa : ${programas}" th:value="${programa.idPrograma}" th:text="${programa.nombre}"></option>
+                </select><br />
+            </fieldset>
+
+            <fieldset>
+                <label for="userName">Nombre de Usuario:</label>
+                <input type="text" id="userName"  placeholder="Nombre de usuario con el que siempre se iniciara sesion" th:field="*{userName}" required /><br />
+
+                <label for="contraseña">Contraseña:</label>
+                <input type="password" id="contraseña" placeholder="Contraseña" th:field="*{contraseña}" required /><br />
+
+            </fieldset>
+
+            <button type="submit">Registrar</button>
+        </form>
+
+        <div class="login-info">
+            <div class="info-content">
+                <h2>Bienvenido al Sistema de Planes de Trabajo</h2>
+                <p>
+                    Esta plataforma permite gestionar de manera eficiente los planes de
+                    trabajo docente, su seguimiento y la distribución de actividades
+                    académicas.
+                </p>
+                <ul>
+                    <li>
+                        <i class="fas fa-check-circle"></i> Creación y seguimiento de
+                        planes de trabajo
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i> Gestión de actividades
+                        académicas, de investigación y extensión
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i> Reportes y análisis de carga
+                        académica
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i> Seguimiento de cumplimiento de
+                        actividades
+                    </li>
+                </ul>
+            </div>
+            <div class="bubbles">
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

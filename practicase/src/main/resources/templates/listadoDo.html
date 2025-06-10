@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <title>Listado de Docentes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ecf0f1, #d0e4f1);
+            color: #2c3e50;
+        }
+
+        header {
+            background: linear-gradient(to right, #2980b9, #3498db);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        thead {
+            background-color: #34495e;
+            color: white;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        td {
+            background-color: #ffffff;
+            padding: 1rem;
+            border-bottom: 1px solid #ecf0f1;
+            transition: background-color 0.3s;
+        }
+
+        tr:hover td {
+            background-color: #f0f8ff;
+        }
+
+        .btn {
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .btn-ver {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+        }
+
+        .btn-ultimo {
+            background: linear-gradient(to right, #27ae60, #1abc9c);
+            color: white;
+        }
+
+        .no-plan {
+            color: #999;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                margin-bottom: 1rem;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            }
+
+            td {
+                padding: 1rem;
+                position: relative;
+            }
+
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #34495e;
+                display: block;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<body>
+
+
+   
+<div class="container">
+
+    
+    <h1>Listado de Docentes</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre Completo</th>
+                <th>Correo</th>
+                <th>Programa</th>
+                <th>Ver Planes</th>
+                <th>Último Plan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="docente, i : ${docentes}">
+                <td data-label="#"> <span th:text="${i.index + 1}">1</span> </td>
+                <td data-label="Nombre">
+                    <span th:text="${docente.nombres + ' ' + docente.apellidos}">Nombre Apellido</span>
+                </td>
+                <td data-label="Correo">
+                    <span th:text="${docente.escalafon}">Escalafon</span>
+                </td>
+                <td data-label="Programa">
+                    <span th:text="${docente.programa.nombre}">Programa X</span>
+                </td>
+                <td data-label="Ver Planes">
+                    <a th:href="@{/listadoP/{id}(id=${docente.id})}" class="btn btn-ver">Ver planes</a>
+                </td>
+                <td data-label="Último Plan">
+                    <a 
+                       th:href="@{/ultimoPlanTrabajoDoc/{id}(id=${docente.id})}" 
+                       class="btn btn-ultimo">
+                        Ver último
+                    </a>
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+
+</body>
+<script src="/js/nav.js"></script>
+</html>

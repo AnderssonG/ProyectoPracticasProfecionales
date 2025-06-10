@@ -1,0 +1,56 @@
+<!-- src/main/resources/templates/fragments/sidebar.html -->
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="sidebar">
+    <div class="sidebar" id="sidebar">
+        <div class="toggle-btn" onclick="toggleSidebar()">≡</div>
+        <ul>
+            <li>
+                <a href="/index">
+                    <span class="icon">🏠</span>
+                    <span class="label">Inicio</span>
+                </a>
+            </li>
+            <li th:if="${not usuario.rol}">
+                <a href="/ultimoPlanTrabajo">
+                    <span class="icon">↩️​</span>
+                    <span class="label">Ultimo Plan Registrado</span>
+                </a>
+
+            </li>
+
+            <li th:if="${not usuario.rol}">
+                <a href="/importar">
+                    <span class="icon">​📩​​</span>
+                    <span class="label">Importar plan de trabajo</span>
+                </a>
+
+            </li>
+
+            <li th:if="${not usuario.rol}">
+                <a href="/listadoP">
+                    <span class="icon">☰​</span>
+                    <span class="label">Lista de planes</span>
+                </a>
+
+            </li>
+
+            <li th:if="${usuario.rol}">
+                <a href="/docentes">
+                    <span class="icon">☰</span>
+                    <span class="label">Listado de Docentes</span>
+                </a>
+
+            </li>
+
+            <li>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit"
+                        style="background: none; border: none; padding: 0; width: 100%; text-align: left; text-decoration: none; color: inherit;">
+                        <span class="icon">🔒</span>
+                        <span class="label">Cerrar sesión</span>
+                    </button>
+                </form>
+            </li>
+
+        </ul>
+    </div>
+</div>

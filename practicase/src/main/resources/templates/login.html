@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión - Sistema de Planes de Trabajo Docente</title>
+    <link rel="stylesheet" th:href="@{/css/login-styles.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-form-container">
+            <div class="login-logo">
+                <img src="/LogoIUD.png" alt="IU Digital de Antioquia" />
+                <h1>Sistema de Planes de Trabajo Docente</h1>
+            </div>
+
+            <!-- Alerta de error (oculta por defecto) -->
+            <div class="alert alert-error" style="display: none">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Credenciales inválidas. Intente nuevamente.</span>
+            </div>
+            
+            <form class="login-form" th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <div class="input-with-icon">
+                        <input type="text" id="username" name="username" placeholder="Ingrese su usuario" required />
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="password" name="password" placeholder="Ingrese su contraseña"
+                            required />
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                    </button>
+                </div>
+                
+            </form>
+            <form class="login-form" th:action="@{/regis}" method="get">
+                <div class="form-actions">
+                    <a href="/regis">
+                        <button  class="btn btn-primary btn-block">
+                            <i class="fas fa-sign-in-alt"></i> Registrarse
+                        </button>
+                    </a>
+                </div>
+            </form>
+            
+        </div>
+
+        <div class="login-info">
+            <div class="info-content">
+                <h2>Bienvenido al Sistema de Planes de Trabajo</h2>
+                <p>
+                    Esta plataforma permite gestionar de manera eficiente los planes de
+                    trabajo docente, su seguimiento y la distribución de actividades
+                    académicas.
+                </p>
+                <ul>
+                    <li>
+                        <i class="fas fa-check-circle"></i> Creación y seguimiento de
+                        planes de trabajo
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i> Gestión de actividades
+                        académicas, de investigación y extensión
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i> Reportes y análisis de carga
+                        académica
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i> Seguimiento de cumplimiento de
+                        actividades
+                    </li>
+                </ul>
+            </div>
+            <div class="bubbles">
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
