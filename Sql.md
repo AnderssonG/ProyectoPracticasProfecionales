@@ -1,0 +1,406 @@
+USE [master]
+GO
+/****** Object:  Database [pt]    Script Date: 6/9/2025 8:40:03 PM ******/
+CREATE DATABASE [pt]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'pt', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.ANDER\MSSQL\DATA\pt.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'pt_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.ANDER\MSSQL\DATA\pt_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [pt] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [pt].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [pt] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [pt] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [pt] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [pt] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [pt] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [pt] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [pt] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [pt] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [pt] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [pt] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [pt] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [pt] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [pt] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [pt] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [pt] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [pt] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [pt] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [pt] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [pt] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [pt] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [pt] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [pt] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [pt] SET RECOVERY FULL 
+GO
+ALTER DATABASE [pt] SET  MULTI_USER 
+GO
+ALTER DATABASE [pt] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [pt] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [pt] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [pt] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [pt] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [pt] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'pt', N'ON'
+GO
+ALTER DATABASE [pt] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [pt] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [pt]
+GO
+/****** Object:  Table [dbo].[Academica]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Academica](
+	[idAcademica] [int] IDENTITY(1,1) NOT NULL,
+	[actividad] [nvarchar](255) NULL,
+	[descripcion] [nvarchar](255) NULL,
+	[HorasSemanales] [int] NULL,
+	[entregable] [nvarchar](255) NULL,
+	[semanas] [int] NULL,
+	[HorasSemestre] [int] NULL,
+	[IdPlanTrabajo] [int] NULL,
+	[IdPrograma] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idAcademica] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[AcDocencia]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AcDocencia](
+	[idAcDocencia] [int] IDENTITY(1,1) NOT NULL,
+	[codigo] [nvarchar](50) NULL,
+	[grupo] [nvarchar](50) NULL,
+	[asignatura] [nvarchar](255) NULL,
+	[bloque] [bit] NULL,
+	[estudiantes] [int] NULL,
+	[HorasTotales] [int] NULL,
+	[semanas] [int] NULL,
+	[semestral] [int] NULL,
+	[IdPlanTrabajo] [int] NULL,
+	[IdPrograma] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idAcDocencia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[AsTrabajoGrado]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AsTrabajoGrado](
+	[idAsGrado] [int] IDENTITY(1,1) NOT NULL,
+	[NombreProyecto] [nvarchar](255) NULL,
+	[NombreEstudiante] [nvarchar](255) NULL,
+	[HorasTotales] [int] NULL,
+	[semanas] [int] NULL,
+	[semestral] [int] NULL,
+	[IdPlanTrabajo] [int] NULL,
+	[IdPrograma] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idAsGrado] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Docente]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Docente](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[nombres] [nvarchar](255) NULL,
+	[apellidos] [nvarchar](255) NULL,
+	[escalafon] [nvarchar](255) NULL,
+	[IdPrograma] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Extension]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Extension](
+	[idExtension] [int] IDENTITY(1,1) NOT NULL,
+	[actividad] [nvarchar](255) NULL,
+	[descripcion] [nvarchar](255) NULL,
+	[responsabilidad] [nvarchar](255) NULL,
+	[HorasSemanales] [int] NULL,
+	[entregable] [nvarchar](255) NULL,
+	[semanas] [int] NULL,
+	[HorasSemestre] [int] NULL,
+	[IdPlanTrabajo] [int] NULL,
+	[IdPrograma] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idExtension] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Facultad]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Facultad](
+	[idFacultad] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [nvarchar](255) NULL,
+	[CentroCosto] [nvarchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idFacultad] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Investigacion]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Investigacion](
+	[idInvestigacion] [int] IDENTITY(1,1) NOT NULL,
+	[actividad] [nvarchar](255) NULL,
+	[descripcion] [nvarchar](255) NULL,
+	[responsabilidad] [nvarchar](255) NULL,
+	[HorasSemanales] [int] NULL,
+	[entregable] [nvarchar](255) NULL,
+	[semanas] [int] NULL,
+	[HorasSemestre] [int] NULL,
+	[total] [int] NULL,
+	[IdPlanTrabajo] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idInvestigacion] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OtrasAc]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OtrasAc](
+	[idOtAc] [int] IDENTITY(1,1) NOT NULL,
+	[actividad] [nvarchar](255) NULL,
+	[descripcion] [nvarchar](255) NULL,
+	[HorasSemanales] [int] NULL,
+	[entregable] [nvarchar](255) NULL,
+	[semanas] [int] NULL,
+	[HorasSemestre] [int] NULL,
+	[IdPlanTrabajo] [int] NULL,
+	[IdPrograma] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idOtAc] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PlanTrabajo]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PlanTrabajo](
+	[idPlantrabajo] [int] IDENTITY(1,1) NOT NULL,
+	[resolucionAcademica] [nvarchar](255) NULL,
+	[HorasTotales] [smallint] NULL,
+	[observaciones] [nvarchar](255) NULL,
+	[IdDocente] [int] NULL,
+	[IdSemestre] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idPlantrabajo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Programa]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Programa](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [nvarchar](255) NULL,
+	[siglas] [nvarchar](50) NULL,
+	[IdFacultad] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Seguimiento]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Seguimiento](
+	[idSeguimiento] [int] IDENTITY(1,1) NOT NULL,
+	[descripcion] [nvarchar](255) NULL,
+	[fecha] [date] NULL,
+	[IdPlanTrabajo] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idSeguimiento] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Semestre]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Semestre](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[NombreSemestre] [nvarchar](50) NULL,
+	[FechaInicio] [date] NULL,
+	[FechaFin] [date] NULL,
+	[semanas] [float] NULL,
+	[horas] [float] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Usuario]    Script Date: 6/9/2025 8:40:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Usuario](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[username] [nvarchar](255) NULL,
+	[contraseña] [nvarchar](255) NULL,
+	[estado] [bit] NULL,
+	[rol] [bit] NULL,
+	[IdDocente] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[IdDocente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[username] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Academica]  WITH CHECK ADD FOREIGN KEY([IdPlanTrabajo])
+REFERENCES [dbo].[PlanTrabajo] ([idPlantrabajo])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Academica]  WITH CHECK ADD FOREIGN KEY([IdPrograma])
+REFERENCES [dbo].[Programa] ([id])
+GO
+ALTER TABLE [dbo].[AcDocencia]  WITH CHECK ADD FOREIGN KEY([IdPlanTrabajo])
+REFERENCES [dbo].[PlanTrabajo] ([idPlantrabajo])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AcDocencia]  WITH CHECK ADD FOREIGN KEY([IdPrograma])
+REFERENCES [dbo].[Programa] ([id])
+GO
+ALTER TABLE [dbo].[AsTrabajoGrado]  WITH CHECK ADD FOREIGN KEY([IdPlanTrabajo])
+REFERENCES [dbo].[PlanTrabajo] ([idPlantrabajo])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AsTrabajoGrado]  WITH CHECK ADD FOREIGN KEY([IdPrograma])
+REFERENCES [dbo].[Programa] ([id])
+GO
+ALTER TABLE [dbo].[Docente]  WITH CHECK ADD FOREIGN KEY([IdPrograma])
+REFERENCES [dbo].[Programa] ([id])
+GO
+ALTER TABLE [dbo].[Extension]  WITH CHECK ADD FOREIGN KEY([IdPlanTrabajo])
+REFERENCES [dbo].[PlanTrabajo] ([idPlantrabajo])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Extension]  WITH CHECK ADD FOREIGN KEY([IdPrograma])
+REFERENCES [dbo].[Programa] ([id])
+GO
+ALTER TABLE [dbo].[Investigacion]  WITH CHECK ADD FOREIGN KEY([IdPlanTrabajo])
+REFERENCES [dbo].[PlanTrabajo] ([idPlantrabajo])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[OtrasAc]  WITH CHECK ADD FOREIGN KEY([IdPlanTrabajo])
+REFERENCES [dbo].[PlanTrabajo] ([idPlantrabajo])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[OtrasAc]  WITH CHECK ADD FOREIGN KEY([IdPrograma])
+REFERENCES [dbo].[Programa] ([id])
+GO
+ALTER TABLE [dbo].[PlanTrabajo]  WITH CHECK ADD FOREIGN KEY([IdDocente])
+REFERENCES [dbo].[Docente] ([id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlanTrabajo]  WITH CHECK ADD FOREIGN KEY([IdSemestre])
+REFERENCES [dbo].[Semestre] ([id])
+GO
+ALTER TABLE [dbo].[Programa]  WITH CHECK ADD FOREIGN KEY([IdFacultad])
+REFERENCES [dbo].[Facultad] ([idFacultad])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Seguimiento]  WITH CHECK ADD FOREIGN KEY([IdPlanTrabajo])
+REFERENCES [dbo].[PlanTrabajo] ([idPlantrabajo])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Usuario]  WITH CHECK ADD FOREIGN KEY([IdDocente])
+REFERENCES [dbo].[Docente] ([id])
+ON DELETE CASCADE
+GO
+USE [master]
+GO
+ALTER DATABASE [pt] SET  READ_WRITE 
+GO
