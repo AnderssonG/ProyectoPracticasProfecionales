@@ -59,7 +59,7 @@
 
   
   <main>
-    <h1>¡Bienvenido, [Nombre del Usuario]!</h1>
+    <h1 th:text=" '¡Bienvenido '+ ${usuario.userName} + '!'"> </h1>
     <section class="info">
       <p>Has iniciado sesión correctamente en el sistema. Desde aquí podrás gestionar tu información, revisar tus actividades o navegar a los módulos correspondientes según tu rol.</p>
 

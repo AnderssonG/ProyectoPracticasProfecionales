@@ -16,9 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.andersson.practicase.excel_logic.ExcelImportService;
 import com.andersson.practicase.model.Docente;
+import com.andersson.practicase.model.Facultad;
 import com.andersson.practicase.model.PlanTrabajo;
+import com.andersson.practicase.model.Programa;
 import com.andersson.practicase.model.Usuario;
 import com.andersson.practicase.repository.DocenteRepository;
+import com.andersson.practicase.repository.FacultadRepository;
 import com.andersson.practicase.repository.PlanTrabajoRepository;
 import com.andersson.practicase.repository.ProgramaRepository;
 import com.andersson.practicase.repository.UsuarioRepository;
@@ -35,8 +38,9 @@ public class MainController {
     private final ProgramaRepository programaRepository;
     private final PlanTrabajoService planTrabajoService;
     private final DocenteRepository docenteRepository;
-    private final UsuarioRepository usuarioRepository;
     private final PlanTrabajoRepository planTrabajoRepository;
+    private final FacultadRepository facultadRepository;
+    private final UsuarioRepository usuarioRepository;
 
     /*------------------------------------Inicio y registro ---------------------------------------------------- */
     @GetMapping("/index")
@@ -133,8 +137,6 @@ public class MainController {
         return "ultimoPlan";
     }
 
-    
-
     @PostMapping("/eliminarP/{id}")
     public String eliminarPlan(Authentication auth, Model model, @PathVariable("id") Integer id) {
         Usuario usuario = auth.getPrincipal() instanceof Usuario ? (Usuario) auth.getPrincipal() : null;
@@ -143,10 +145,7 @@ public class MainController {
         return "redirect:/listadoP";
     }
 
-
-    
     /*------------------------------------ Vistas de admin ---------------------------------------------------- */
-
 
     @GetMapping("/ultimoPlanTrabajoDoc/{id}")
     public String verPlanTrabajoDoc(Model model, Authentication auth, @PathVariable("id") Integer id) {
@@ -165,15 +164,14 @@ public class MainController {
     public String verDocentes(Model model, Authentication auth) {
         Usuario usuario = auth.getPrincipal() instanceof Usuario ? (Usuario) auth.getPrincipal() : null;
         model.addAttribute("usuario", usuario);
-        List<Docente> docentes = docenteRepository.findAll();
-        
+        List<Usuario> docentes = usuarioRepository.findAll();
+
         model.addAttribute("docentes", docentes);
         return "listadoDo";
     }
 
-
     @GetMapping("/listadoP/{id}")
-    public String verListadoPlanTrabajoDoc(Model model, Authentication auth,@PathVariable("id") Integer id) {
+    public String verListadoPlanTrabajoDoc(Model model, Authentication auth, @PathVariable("id") Integer id) {
 
         Usuario usuario = auth.getPrincipal() instanceof Usuario ? (Usuario) auth.getPrincipal() : null;
         model.addAttribute("usuario", usuario);
@@ -184,4 +182,55 @@ public class MainController {
 
         return "listadoPlanes";
     }
+
+    // Mostrar formulario para crear una nueva facultad
+    @GetMapping("/nuevaFacultad")
+    public String mostrarFormularioFacultad(Model model, Authentication auth) {
+        model.addAttribute("facultad", new Facultad());
+        Usuario usuario = auth.getPrincipal() instanceof Usuario ? (Usuario) auth.getPrincipal() : null;
+        model.addAttribute("usuario", usuario);
+        return "CreateFacultad"; // nombre del HTML con el formulario
+    }
+
+    // Procesar el formulario de creación de facultad
+    @PostMapping("/guardarFacultad")
+    public String guardarFacultad(@ModelAttribute Facultad facultad) {
+        facultadRepository.save(facultad);
+        return "redirect:/index";
+    }
+
+    // Mostrar formulario para crear un nuevo programa
+    @GetMapping("/nuevoPrograma")
+    public String mostrarFormularioPrograma(Model model, Authentication auth) {
+        Usuario usuario = auth.getPrincipal() instanceof Usuario ? (Usuario) auth.getPrincipal() : null;
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("programa", new Programa());
+        model.addAttribute("facultades", facultadRepository.findAll()); // para el <select>
+        return "CreatePrograma"; // nombre del HTML con el formulario
+    }
+
+    // Procesar el formulario de creación de programa
+    @PostMapping("/guardarPrograma")
+    public String guardarPrograma(@ModelAttribute Programa programa,
+            @RequestParam("facultad.idFacultad") Integer idFacultad) {
+
+        programa.setFacultad(facultadRepository.findById(idFacultad).orElse(null));
+        programaRepository.save(programa);
+
+        return "redirect:/index";
+    }
+
+    @PostMapping("/cambiarRol")
+    public String cambiarRolUsuario(@RequestParam("usuarioId") Integer usuarioId,
+            @RequestParam("nuevoRol") boolean nuevoRol) {
+
+        Optional<Usuario> optUsuario = usuarioRepository.findByDocente(docenteRepository.findById(usuarioId).get());
+        if (optUsuario.isPresent()) {
+            Usuario usuario = optUsuario.get();
+            usuario.setRol(nuevoRol);
+            usuarioRepository.save(usuario);
+        }
+        return "redirect:/docentes"; // Ajusta según la ruta a tu listado
+    }
+
 }

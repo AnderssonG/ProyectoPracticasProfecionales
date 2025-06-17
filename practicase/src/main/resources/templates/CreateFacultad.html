@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Facultad</title>
+    <link rel="stylesheet" href="/css/nav.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        form div {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #216a94;
+        }
+
+        .btn-cancelar {
+            margin-left: 10px;
+            background-color: #bdc3c7;
+            text-decoration: none;
+            color: #2c3e50;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-cancelar:hover {
+            background-color: #a7b0b6;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+ <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="container">
+    <h2>Crear Nueva Facultad</h2>
+
+    <form th:action="@{/guardarFacultad}" th:object="${facultad}" method="post">
+        <div>
+            <label for="nombre">Nombre de la Facultad</label>
+            <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej. Facultad de Ingeniería" required />
+        </div>
+
+        <div>
+            <label for="centroCosto">Centro de Costo</label>
+            <input type="text" id="centroCosto" th:field="*{centroCosto}" placeholder="Ej. 23001" required />
+        </div>
+
+        <div style="text-align: right;">
+            <button type="submit">Guardar</button>
+            <a th:href="@{/index}" class="btn-cancelar">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+</body>
+<script src="/js/nav.js"></script>
+</html>

@@ -19,28 +19,37 @@
             </div>
             <fieldset id="">
                 <label for="nombres">Nombres:</label>
-                <input type="text" id="nombres" th:field="*{docente.nombres}" required placeholder="Nombres"/><br />
+                <input type="text" id="nombres" th:field="*{docente.nombres}" required placeholder="Nombres" /><br />
 
                 <label for="apellidos">Apellidos:</label>
-                <input type="text" id="apellidos" placeholder="Apellidos" th:field="*{docente.apellidos}"required /><br />
+                <input type="text" id="apellidos" placeholder="Apellidos" th:field="*{docente.apellidos}"
+                    required /><br />
 
                 <label for="escalafon">Escalafón:</label>
-                <input type="text" id="escalafon" placeholder="Escalafon o tipo de contratacion" th:field="*{docente.escalafon}" required /><br />
-
+                <select id="escalafon" th:field="*{docente.escalafon}" required>
+                    <option value="Ocasional">Ocasional</option>
+                    <option value="Asistente">Asistente</option>
+                    <option value="Asociado">Asociado</option>
+                    
+                    
+                </select><br />
                 <label for="programa">Programa:</label>
                 <select id="programa" th:field="*{docente.programa}" required>
-                    <option value=""  selected>Seleccione un programa</option>
+                    <option value="" selected>Seleccione un programa</option>
 
-                    <option th:each="programa : ${programas}" th:value="${programa.idPrograma}" th:text="${programa.nombre}"></option>
+                    <option th:each="programa : ${programas}" th:value="${programa.idPrograma}"
+                        th:text="${programa.nombre}"></option>
                 </select><br />
             </fieldset>
 
             <fieldset>
                 <label for="userName">Nombre de Usuario:</label>
-                <input type="text" id="userName"  placeholder="Nombre de usuario con el que siempre se iniciara sesion" th:field="*{userName}" required /><br />
+                <input type="text" id="userName" placeholder="Nombre de usuario con el que siempre se iniciara sesion"
+                    th:field="*{userName}" required /><br />
 
                 <label for="contraseña">Contraseña:</label>
-                <input type="password" id="contraseña" placeholder="Contraseña" th:field="*{contraseña}" required /><br />
+                <input type="password" id="contraseña" placeholder="Contraseña" th:field="*{contraseña}"
+                    required /><br />
 
             </fieldset>
 

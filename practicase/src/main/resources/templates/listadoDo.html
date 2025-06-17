@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
     <title>Listado de Docentes</title>
     <style>
         * {
@@ -25,7 +27,7 @@
             color: white;
             padding: 1.5rem;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .container {
@@ -34,13 +36,20 @@
             padding: 2rem;
             background-color: white;
             border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             animation: fadeIn 0.6s ease-in-out;
         }
 
         @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(20px);}
-            to {opacity: 1; transform: translateY(0);}
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
@@ -91,7 +100,7 @@
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .btn-ver {
@@ -110,7 +119,13 @@
         }
 
         @media (max-width: 768px) {
-            table, thead, tbody, th, td, tr {
+
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
                 display: block;
             }
 
@@ -122,7 +137,7 @@
                 margin-bottom: 1rem;
                 border-radius: 10px;
                 overflow: hidden;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             }
 
             td {
@@ -141,55 +156,75 @@
     </style>
 </head>
 <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
 <body>
 
 
-   
-<div class="container">
 
-    
-    <h1>Listado de Docentes</h1>
+    <div class="container">
 
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Nombre Completo</th>
-                <th>Correo</th>
-                <th>Programa</th>
-                <th>Ver Planes</th>
-                <th>Último Plan</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="docente, i : ${docentes}">
-                <td data-label="#"> <span th:text="${i.index + 1}">1</span> </td>
-                <td data-label="Nombre">
-                    <span th:text="${docente.nombres + ' ' + docente.apellidos}">Nombre Apellido</span>
-                </td>
-                <td data-label="Correo">
-                    <span th:text="${docente.escalafon}">Escalafon</span>
-                </td>
-                <td data-label="Programa">
-                    <span th:text="${docente.programa.nombre}">Programa X</span>
-                </td>
-                <td data-label="Ver Planes">
-                    <a th:href="@{/listadoP/{id}(id=${docente.id})}" class="btn btn-ver">Ver planes</a>
-                </td>
-                <td data-label="Último Plan">
-                    <a 
-                       th:href="@{/ultimoPlanTrabajoDoc/{id}(id=${docente.id})}" 
-                       class="btn btn-ultimo">
-                        Ver último
-                    </a>
-                    
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-</div>
+
+        <h1>Listado de Docentes</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre Completo</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Programa</th>
+                    <th>Ver Planes</th>
+                    <th>Último Plan</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="do, i : ${docentes}">
+                    <td data-label="#"> <span th:text="${i.index + 1}">1</span> </td>
+                    <td data-label="Nombre">
+                        <span th:text="${do.docente.nombres + ' ' + do.docente.apellidos}">Nombre Apellido</span>
+                    </td>
+                    <td data-label="Correo">
+                        <span th:text="${do.docente.escalafon}">Escalafon</span>
+                    </td>
+                    <td data-label="Programa">
+                        <span th:text="${do.docente.programa.nombre}">Programa X</span>
+                    </td>
+                    <td data-label="Ver Planes">
+                        <a th:href="@{/listadoP/{id}(id=${do.docente.id})}" class="btn btn-ver">📋</a>
+                    </td>
+                    <td data-label="Último Plan">
+                        <a th:href="@{/ultimoPlanTrabajoDoc/{id}(id=${do.docente.id})}" class="btn btn-ultimo">
+                            🔚
+                        </a>
+
+                    </td>
+                    <td>
+                        <span th:text="${do.rol ? 'ADMIN' : 'DOCENTE'}"
+                            th:classappend="${do.rol ? 'text-success' : 'text-secondary'}"></span>
+                    </td>
+
+                    <td>
+                        <form th:action="@{/cambiarRol}" method="post">
+                            <input type="hidden" name="usuarioId" th:value="${do.idUsuario}" />
+                            <select name="nuevoRol" class="form-select" required>
+                                <option value="">Seleccione...</option>
+
+                                <option th:value="false" th:selected="${do.rol == 'false'}">DOCENTE
+                                </option>
+                                <option th:value="true" th:selected="${do.rol == 'true'}">ADMIN</option>
+                            </select>
+                            <button type="submit" class="btn btn-ver" style="margin-top: 5px;">Actualizar Rol</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
 
 </body>
 <script src="/js/nav.js"></script>
+
 </html>

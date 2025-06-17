@@ -40,6 +40,20 @@
                 </a>
 
             </li>
+            <li th:if="${usuario.rol}">
+                <a href="/nuevaFacultad">
+                    <span class="icon">➕</span>
+                    <span class="label">Nueva Facultad</span>
+                </a>
+
+            </li>
+            <li th:if="${usuario.rol}">
+                <a href="/nuevoPrograma">
+                    <span class="icon">➕</span>
+                    <span class="label">Nuevo Programa</span>
+                </a>
+
+            </li>
 
             <li>
                 <form th:action="@{/logout}" method="post">
