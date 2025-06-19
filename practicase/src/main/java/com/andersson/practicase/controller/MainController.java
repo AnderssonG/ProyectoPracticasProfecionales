@@ -86,7 +86,7 @@ public class MainController {
 
         PlanTrabajo planTrabajo = excelService.leerTodasLasActividades(archivo, usuario.getDocente());
         planTrabajoService.guardar(planTrabajo);
-        return "redirect:/index";
+        return "redirect:index";
     }
 
     @GetMapping("/importar")
@@ -142,7 +142,7 @@ public class MainController {
         Usuario usuario = auth.getPrincipal() instanceof Usuario ? (Usuario) auth.getPrincipal() : null;
         model.addAttribute("usuario", usuario);
         planTrabajoService.eliminar(id);
-        return "redirect:/listadoP";
+        return "redirect:listadoP";
     }
 
     /*------------------------------------ Vistas de admin ---------------------------------------------------- */
@@ -164,7 +164,7 @@ public class MainController {
     public String verDocentes(Model model, Authentication auth) {
         Usuario usuario = auth.getPrincipal() instanceof Usuario ? (Usuario) auth.getPrincipal() : null;
         model.addAttribute("usuario", usuario);
-        List<Usuario> docentes = usuarioRepository.findAll();
+        List<Usuario> docentes = usuarioRepository.findAllByOrderByDocente_NombresAsc();
 
         model.addAttribute("docentes", docentes);
         return "listadoDo";
@@ -196,7 +196,7 @@ public class MainController {
     @PostMapping("/guardarFacultad")
     public String guardarFacultad(@ModelAttribute Facultad facultad) {
         facultadRepository.save(facultad);
-        return "redirect:/index";
+        return "redirect:index";
     }
 
     // Mostrar formulario para crear un nuevo programa
@@ -217,7 +217,7 @@ public class MainController {
         programa.setFacultad(facultadRepository.findById(idFacultad).orElse(null));
         programaRepository.save(programa);
 
-        return "redirect:/index";
+        return "redirect:index";
     }
 
     @PostMapping("/cambiarRol")
@@ -230,7 +230,7 @@ public class MainController {
             usuario.setRol(nuevoRol);
             usuarioRepository.save(usuario);
         }
-        return "redirect:/docentes"; // Ajusta según la ruta a tu listado
+        return "redirect:docentes"; // Ajusta según la ruta a tu listado
     }
 
 }
